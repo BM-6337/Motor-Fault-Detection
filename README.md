@@ -36,14 +36,6 @@ Train a classification model on motor sensor data (air/process temperature, rota
 
 Failures are rare — only ~3% of records. A model that always predicts "healthy" would already score ~96-97% accuracy while being useless. Precision, recall, and F1 are tracked alongside accuracy throughout, and `class_weight="balanced"` is used during training so the rare failure class doesn't get ignored.
 
-## Key preprocessing decisions
-
-- **`Failure Type` is dropped from the features.** It describes *how* a machine failed, which is only known after the fact — using it as an input would leak the answer.
-- **`UDI` and `Product ID`** are row identifiers with no predictive signal — dropped.
-- **Two engineered features** add real mechanical context:
-  - `Power [W]` = Torque × angular velocity — directly relevant to *Power Failure* and *Overstrain Failure*.
-  - `Temp_diff [K]` = Process temperature − Air temperature — a proxy for heat dissipation, relevant to *Heat Dissipation Failure*.
-
 ## Results
 
 Random Forest outperformed the Logistic Regression baseline on every tracked metric (accuracy, precision, recall, F1) and was used for the final feature-importance analysis.
